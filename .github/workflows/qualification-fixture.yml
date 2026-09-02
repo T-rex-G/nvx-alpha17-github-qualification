@@ -1,0 +1,26 @@
+# Permanent fixture for the Nebulaverse-X alpha.17 live-provider qualification.
+#
+# The `workflows.read` probe lists this repository's workflow runs and then
+# fetches each listed run on its own, checking the detail view agrees with the
+# listing. A repository that has never run anything lists nothing, so the probe
+# would prove only that the endpoint answers.
+#
+# This exists to put exactly one real run in that list.
+#
+# It is workflow_dispatch only, deliberately. On `push` it would fire on every
+# proof branch the qualification creates and deletes, adding a run per
+# qualification and touching a repository that is supposed to be inert between
+# runs. Dispatched once, it stays one run.
+name: Qualification fixture
+
+on:
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  fixture:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Be a workflow run that exists
+        run: echo "alpha.17 workflows.read fixture"
